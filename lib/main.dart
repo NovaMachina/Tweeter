@@ -10,9 +10,14 @@
 // the signup flow instead of on the home page.
 
 import 'package:flutter/material.dart';
+import 'package:tweeter/net/MockBackendClient.dart';
+import 'package:tweeter/net/ServerFacade.dart';
 import 'package:tweeter/pages/LoginPage.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  ServerFacade.setClient(MockBackendClient());
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

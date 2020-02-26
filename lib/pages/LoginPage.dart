@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tweeter/pages/HomePage.dart';
+import 'package:tweeter/tasks/LoginTask.dart';
+import 'package:tweeter/tasks/observers/ILoginObserver.dart';
+import 'package:tweeter/utils/ToastHelper.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -24,8 +27,12 @@ class LoginWidget extends StatefulWidget {
   _LoginWidgetState createState() => _LoginWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _LoginWidgetState extends State<LoginWidget> implements ILoginObserver {
   final _formKey = GlobalKey<FormState>();
+  String _username;
+  String _password;
+
+  bool _showProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +52,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 if (value.isEmpty) {
                   return "Please enter some text";
                 }
+                _username = value;
                 return null;
               },
             ),
@@ -59,30 +67,52 @@ class _LoginWidgetState extends State<LoginWidget> {
                 if (value.isEmpty) {
                   return "Please enter some text";
                 }
+                _password = value;
                 return null;
               },
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: RaisedButton(
-              onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  Navigator.pushReplacement(context, MaterialPageRoute<void>(
-                    builder: (BuildContext context) {
-                      return HomePage();
+            child: _showProgress
+                ? CircularProgressIndicator(
+                    value: null,
+                  )
+                : RaisedButton(
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        LoginTask task = LoginTask(this);
+                        task.loginUser(_username, _password);
+                        _toggleSubmitState();
+                      }
                     },
-                  ));
-                }
-              },
-              child: InkWell(
-                child: Text("Submit"),
-                enableFeedback: true,
-              ),
-            ),
+                    child: Text("Submit"),
+                  ),
           )
         ],
       ),
     );
+  }
+
+  void _toggleSubmitState() {
+    setState(() {
+      _showProgress = !_showProgress;
+    });
+  }
+
+  @override
+  void onLoginError(String message) {
+    _toggleSubmitState();
+    ToastHelper.showToast(message);
+  }
+
+  @override
+  void onLoginSuccess() {
+    _toggleSubmitState();
+    Navigator.pushReplacement(context, MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return HomePage();
+      },
+    ));
   }
 }
