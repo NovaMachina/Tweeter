@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tweeter/pages/home_page.dart';
+import 'package:tweeter/pages/HomePage.dart';
 
 class LoginPage extends StatelessWidget {
   @override

@@ -1,9 +1,9 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tweeter/models/status.dart';
-import 'package:tweeter/models/user.dart';
-import 'package:tweeter/utils/toast_helper.dart';
+import 'package:tweeter/models/Status.dart';
+import 'package:tweeter/models/User.dart';
+import 'package:tweeter/utils/ToastHelper.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -47,8 +47,8 @@ class HomePage extends StatelessWidget {
 
   final _feed = <Status>[];
   final _story = <Status>[];
-  final _followers = <WordPair>[];
-  final _following = <WordPair>[];
+  final _followers = <User>[];
+  final _following = <User>[];
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   Widget _buildStatusList(list) {

@@ -10,7 +10,7 @@
 // the signup flow instead of on the home page.
 
 import 'package:flutter/material.dart';
-import 'package:tweeter/pages/login_page.dart';
+import 'package:tweeter/pages/LoginPage.dart';
 
 void main() => runApp(MyApp());
 
