@@ -1,14 +1,13 @@
 import 'package:tweeter/net/ServerFacade.dart';
-import 'package:tweeter/utils/ToastHelper.dart';
 
 class AuthenticationService {
-  static AuthenticationService _INSTANCE;
+  static AuthenticationService _instance;
 
   static AuthenticationService getInstance() {
-    if (_INSTANCE == null) {
-      _INSTANCE = AuthenticationService();
+    if (_instance == null) {
+      _instance = AuthenticationService();
     }
-    return _INSTANCE;
+    return _instance;
   }
 
   String login(String username, String password) {

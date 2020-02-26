@@ -1,3 +1,5 @@
+import 'package:tweeter/net/requests/LoginRequest.dart';
+
 abstract class IClient {
-  String login(String username, String password);
+  String login(LoginRequest request);
 }
