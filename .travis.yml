@@ -1,11 +1,9 @@
-language: dart
-
 os:
   - linux
 addons:
   apt:
-    sources:
-      - ubuntu-toolchan-r-test
+#    sources:
+    #      - ubuntu-toolchan-r-test
     packages:
       - libstdc++6
       - fonts-droid-fallback
