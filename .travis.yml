@@ -1,6 +1,7 @@
+language: dart
+
 os:
   - linux
-sudo: false
 addons:
   apt:
     sources:
