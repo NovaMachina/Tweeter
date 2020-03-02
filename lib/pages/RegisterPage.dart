@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tweeter/net/requests/RegisterRequest.dart';
+import 'package:tweeter/tasks/RegisterTask.dart';
 import 'package:tweeter/tasks/observers/IRegisterObserver.dart';
 import 'package:tweeter/utils/ToastHelper.dart';
+
+import 'HomePage.dart';
 
 class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Tweeter",
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("Register"),
         ),
-        body: SingleChildScrollView(
-          child: RegisterWidget(),
-        ),
+        body: RegisterWidget(),
       ),
     );
   }
@@ -50,7 +51,7 @@ class _RegisterWidgetState extends State<RegisterWidget>
           createStandardTextInput("Last Name", _lastName),
           createStandardTextInput("Alias", _alias),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: TextFormField(
               obscureText: true,
               decoration: InputDecoration(
@@ -72,7 +73,7 @@ class _RegisterWidgetState extends State<RegisterWidget>
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: TextFormField(
               obscureText: true,
               decoration: InputDecoration(
@@ -90,7 +91,7 @@ class _RegisterWidgetState extends State<RegisterWidget>
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: _showProgress
                 ? CircularProgressIndicator(
                     value: null,
@@ -98,8 +99,9 @@ class _RegisterWidgetState extends State<RegisterWidget>
                 : RaisedButton(
                     onPressed: () {
                       if (_registerFormKey.currentState.validate()) {
-//                  RegisterTask task = RegisterTask(this);
-//                  task.loginUser(_username, _password);
+                        RegisterTask task = RegisterTask(this);
+                        task.registerUser(
+                            _firstName, _lastName, _alias, _password);
                         _toggleSubmitState();
                       }
                     },
@@ -120,11 +122,16 @@ class _RegisterWidgetState extends State<RegisterWidget>
   @override
   void onRegisterSuccess() {
     _toggleSubmitState();
+    Navigator.pushReplacement(context, MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return HomePage();
+      },
+    ));
   }
 
   Widget createStandardTextInput(String hintText, String variable) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: TextFormField(
         decoration: InputDecoration(
           hintText: hintText,

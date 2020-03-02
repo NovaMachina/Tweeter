@@ -19,4 +19,10 @@ void main() {
         AuthenticationService.getInstance().login("badUsername", "badPassword");
     expect(result, equals("Could not find credentials."));
   });
+
+  test("Register with valid credentials returns success.", () {
+    String result = AuthenticationService.getInstance()
+        .register("firstName", "lastName", "alias", "password");
+    expect(result, equals(null));
+  });
 }

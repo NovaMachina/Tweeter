@@ -1,5 +1,6 @@
 import 'package:tweeter/net/IClient.dart';
 import 'package:tweeter/net/requests/LoginRequest.dart';
+import 'package:tweeter/net/requests/RegisterRequest.dart';
 
 class ServerFacade {
   static ServerFacade _instance;
@@ -18,5 +19,11 @@ class ServerFacade {
 
   String login(String username, String password) {
     return _client.login(LoginRequest(username, password));
+  }
+
+  String register(
+      String firstName, String lastName, String alias, String password) {
+    return _client
+        .register(RegisterRequest(firstName, lastName, alias, password));
   }
 }
