@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tweeter/pages/HomePage.dart';
+import 'package:tweeter/pages/RegisterPage.dart';
 import 'package:tweeter/tasks/LoginTask.dart';
 import 'package:tweeter/tasks/observers/ILoginObserver.dart';
 import 'package:tweeter/utils/ToastHelper.dart';
@@ -11,6 +12,7 @@ class LoginPage extends StatelessWidget {
     return MaterialApp(
       title: "Tweeter",
       home: Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           title: const Text("Tweeter"),
         ),
@@ -28,7 +30,7 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> implements ILoginObserver {
-  final _formKey = GlobalKey<FormState>();
+  final _loginFormKey = GlobalKey<FormState>();
   String _username;
   String _password;
 
@@ -37,7 +39,7 @@ class _LoginWidgetState extends State<LoginWidget> implements ILoginObserver {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: _loginFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -60,6 +62,7 @@ class _LoginWidgetState extends State<LoginWidget> implements ILoginObserver {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextFormField(
+              obscureText: true,
               decoration: const InputDecoration(
                 hintText: "Password",
               ),
@@ -80,7 +83,7 @@ class _LoginWidgetState extends State<LoginWidget> implements ILoginObserver {
                   )
                 : RaisedButton(
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
+                      if (_loginFormKey.currentState.validate()) {
                         LoginTask task = LoginTask(this);
                         task.loginUser(_username, _password);
                         _toggleSubmitState();
@@ -88,7 +91,16 @@ class _LoginWidgetState extends State<LoginWidget> implements ILoginObserver {
                     },
                     child: Text("Submit"),
                   ),
-          )
+          ),
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute<void>(builder: (BuildContext context) {
+                return RegisterPage();
+              }));
+            },
+            child: Text("Don't have an account? Click here to register."),
+          ),
         ],
       ),
     );
